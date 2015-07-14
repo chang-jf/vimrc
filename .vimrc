@@ -21,7 +21,7 @@ set nocompatible                                                                
 set backspace=indent,eol,start                                                  " allow backspacing over everything in the insert mode equal to set bs=2
 set autoindent                                                                  " copy inednt from current line while creating new line, smartindent better, cindent even better, 
                                                                                 " set default indent to autoindent for files which have no indent file for them
-set backup                                                                      " backup file with ~
+set nobackup                                                                      " backup file with ~
 set history=50                                                                  " too much no use
 set ruler                                                                       " show cursor position on bottom-right
 set incsearch                                                                   " highlight next matched string while typing search pattern
@@ -34,7 +34,7 @@ set sidescroll=10                                                               
 set whichwrap=b,s,<,>,[,]                                                       " enable additional bs,<LEFT> move cursor back to end of previous line regardless in insert mode or normal mode, space and <RIGHT> vice versa
 set nolist                                                                      " turn tab and line end visible, display tab as ^I and $ and line end, prefer disable by default
 set iskeyword+=-                                                                " default iskeyword=all letters, 0~9, _, visible latin characters, now add -, so VIM consider string which consisted by these item as a "word"
-colorscheme default                                                             " elflord or default is good as well
+colorscheme elflord                                                             " elflord or default is good as well
 set tabstop=8                                                                   " each tab advance 8 characters, better stay at default
 set shiftwidth=4                                                                " typically equal to tabstop, set 4 space while autoindent
 set softtabstop=4                                                               " initial line with a tab key will place 4 space instead
@@ -172,3 +172,20 @@ autocmd! bufwritepost .vimrc source ~/.vimrc                                    
 " ========================================Global plugin         -       setting for plugin in $VIMRUNTIME/macros        eg.~/.vim/plugin==============================================================
 " 
 " ========================================Filetype plugin       -       setting for plugins in $VIMRUNTIME/ftplugin     eg.~/.vim/ftplugin============================================================
+"Syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+"UltiSnips
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
