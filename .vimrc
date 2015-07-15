@@ -270,4 +270,4 @@ let g:UltiSnipsExpandTrigger="<Tab>"
 let g:UltiSnipsJumpForwardTrigger="<Tab>"                                           
 let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
 let g:UltiSnipsEditSplit="vertical"                                             " If you want :UltiSnipsEdit to split your window.
-" nerdcommenter
+" nerdcommenter <,cc><,<,cs>, <,cy>, <,c$>, <,cA>, <,cu>
