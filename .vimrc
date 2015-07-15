@@ -20,6 +20,7 @@
 " Look&Feel
 set hls                                                                         " high light search matching
 set t_vb=
+set t_Co=256                                                                    " set vim support <t_co> colors
 set ruler                                                                       " show cursor position on bottom-right
 set nowrap
 set number                                                                      " 顯示行號
@@ -27,14 +28,20 @@ set nolist                                                                      
 set showmode                                                                    " Show current mode
 set showmatch                                                                   " Cursor shows matching ) and }
 set cursorline                                                                  " 啟用行游標提示
-"set cursorcolumn                                                                " 啟用列游標提示
+set cursorcolumn                                                                " 啟用列游標提示
+"highlight CursorLine cterm=none ctermbg=blue
+highlight CursorLine cterm=bold ctermbg=4
+au InsertEnter * set nocursorline                                               " insert 的時後, 將 CursorLine 移除,寫完了再打開
+au InsertLeave * set cursorline
 set noerrorbells                                                                " disable sound on errors
 set novisualbell                                                                " disable visualbell
 set background=dark                                                             " set background to dark, place this before "syn on"
 syntax on
-colorscheme default                                                             " elflord or default is good as well
-"colorscheme elflord                                                             " elflord or default is good as well
-autocmd FileType text setlocal textwidth=82                                     " while filetype determined as text, set vim change to new line while input exceed 81
+"colorscheme default                                                            " http://vimcolorschemetest.googlecode.com/svn/html/index-c.html
+colorscheme elflord                                                            " elflord or default is good as well
+"colorscheme ir_black                                                            " elflord or default is good as well
+autocmd FileType text setlocal textwidth=0                                      " while filetype determined as text, set vim change to new line while input exceed 81
+set textwidth=0
 " Behavior
 set nobackup                                                                      " backup file with ~
 set autoread                                                                    " auto read when file is changed from outside
@@ -65,11 +72,9 @@ set softtabstop=4                                                               
 filetype plugin indent on                                                       " enable filetype detection affect filetype plugin and indent, will auto set cindent for filetype C
 autocmd FileType Makefile set noexpandtab                                       " Need tab is ^I while editing Makefile
 " Folding
-" 基于缩进或语法进行代码折叠
-"set foldmethod=indent
-set foldmethod=syntax
-" 启动 vim 时关闭折叠代码
-set nofoldenable
+"set foldmethod=indent                                                          " 基于缩进或语法进行代码折叠
+set foldmethod=syntax                                                           " 基于缩进或语法进行代码折叠 
+set nofoldenable                                                                " 启动 vim 时关闭折叠代码
 " auto complete
 set wildchar=<TAB>                                                              " start wild expansion in the command line using <TAB>
 set wildmenu                                                                    " wild char completion menu
@@ -118,38 +123,27 @@ let g:mapleader=","
 "map <leader>r :call Replace()<CR>                                              " Do we really need global replace? 
 
 " open the error console
-map <leader>cc :botright cope<CR>
-" move to next error
-map <leader>] :cn<CR>
-" move to the prev error
-map <leader>[ :cp<CR>
+map <leader>c\ :botright cope<CR>
+map <leader>] :cn<CR>                                                           " move to next error
+map <leader>[ :cp<CR>                                                           " move to the prev error
 
-" --- move around splits {
-" move to and maximize the below split
-map <C-J> <C-W>j<C-W>_
-" move to and maximize the above split
-map <C-K> <C-W>k<C-W>_
-" move to and maximize the left split
-nmap <c-h> <c-w>h<c-w><bar>
-" move to and maximize the right split
-nmap <c-l> <c-w>l<c-w><bar>
+" move around splits
+map <C-J> <C-W>j<C-W>_                                                          " move to and maximize the below split
+map <C-K> <C-W>k<C-W>_                                                          " move to and maximize the above split
+nmap <c-h> <c-w>h<c-w><bar>                                                     " move to and maximize the left split
+nmap <c-l> <c-w>l<c-w><bar>                                                     " move to and maximize the right split
 set wmw=0                                                                       " set the min width of a window to 0 so we can maximize others 
 set wmh=0                                                                       " set the min height of a window to 0 so we can maximize others
-" }
 
 " move around tabs. conflict with the original screen top/bottom
 " comment them out if you want the original H/L
-" new tab
-map <C-t><C-t> :tabnew<CR>
-" close tab
-map <C-t><C-w> :tabclose<CR> 
-" go to prev tab
-map <S-H> gT
-" go to next tab
-map <S-L> gt
+map <C-t><C-t> :tabnew<CR>                                                      " new tab
+map <C-t><C-w> :tabclose<CR>                                                    " close tab
+map <S-H> gT                                                                    " go to prev tab
+map <S-L> gt                                                                    " go to next tab
 
-" ,p toggles paste mode
-nmap <leader>p :set paste!<BAR>set paste?<CR>
+" toggles paste mode, get correct layout while copy text from other program
+nmap <leader>p :set paste!<BAR>set paste?<CR>                                   " ,p toggles paste mode
 
 "---------------------------------------------------------------------------
 " PROGRAMMING SHORTCUTS
@@ -168,7 +162,7 @@ fun! IncludeGuard()
    call append( line("$"), "#endif // for #ifndef " . guard)
 endfun
 
-" ========================================Global plugin         -       setting for plugin in $VIMRUNTIME/macros        eg.~/.vim/plugin==============================================================
+" ========================================Plugins managed by vundle===================================================================================================================================
 "
 "------------------------------------------------------------------------------
 " Install vundle automatically
@@ -187,28 +181,34 @@ endif
 "------------------------------------------------------------------------------
 " Vundle setting.
 "------------------------------------------------------------------------------
-set nocompatible               " be iMproved
-filetype off                   " required!
+set nocompatible                                                                " be iMproved
+filetype off                                                                    " required!
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
+set rtp+=~/.vim/bundle/Vundle.vim                                               " set the runtime path to include Vundle and initialize
 call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
 
 " Look&Feel
-"Plugin 'Lokaltog/vim-powerline'
+Plugin 'twerth/ir_black'
+Plugin 'Lokaltog/vim-powerline'
 Plugin 'nathanaelkane/vim-indent-guides'
 
 " Integrations
 Plugin 'scrooloose/syntastic'
+
+" Interface
+Plugin 'scrooloose/nerdtree'
 
 " Completion
 Plugin 'Raimondi/delimitMate'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
+
+" Commands
+Plugin 'scrooloose/nerdcommenter'
 
 " All of your Plugins must be added before the following line
 call vundle#end()                                                               " required
@@ -232,25 +232,19 @@ if iCanHazVundle == 3
     :qall
 endif
 
+
+" ================================================ Plugin Setting ====================================================================================================================================
 " PowerLine
-"let g:Powerline_symbols = 'fancy'
-"let g:Powerline_colorscheme='solarized256'
-" ========================================Filetype plugin       -       setting for plugins in $VIMRUNTIME/ftplugin     eg.~/.vim/ftplugin============================================================
-"
-" YouCompleteMe
-let g:ycm_key_list_select_completion=['<C-n>', '<Down>']
-let g:ycm_key_list_previous_completion=['<C-p>', '<Up>']
-let g:ycm_global_ycm_extra_conf='/home/land/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
-nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>                                                 "Jump to Definition
-nnoremap <leader>je :YcmCompleter GoToDefinition<CR>
-let g:ycm_confirm_extra_conf=0
-let g:ycm_collect_identifiers_from_tag_files = 1
-" UltiSnips
-let g:UltiSnipsExpandTrigger="<Tab>"
-let g:UltiSnipsJumpForwardTrigger="<Tab>"                                           
-let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
-" If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="vertical"
+let g:Powerline_symbols = 'fancy'
+let g:Powerline_colorscheme='solarized256'
+" vim-indent-guides <leader>i
+:nmap <silent> <Leader>i <Plug>IndentGuidesToggle                               " <leader>i enable/disable indent_guide
+let g:indent_guides_auto_colors = 0
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=3
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=4
+let g:indent_guides_enable_on_vim_startup=1                                     " enable on vim start
+let g:indent_guides_start_level=2                                               " visually displaying indent levels from level2 in code 
+let g:indent_guides_guide_size=1                                                " 色块宽度
 " syntastic
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -259,15 +253,21 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-" vim-indent-guides
-let g:indent_guides_auto_colors = 0
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=3
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=4
-" 随 vim 自启动
-let g:indent_guides_enable_on_vim_startup=1
-" 从第二层开始可视化显示缩进
-let g:indent_guides_start_level=2
-" 色块宽度
-let g:indent_guides_guide_size=1
-" 快捷键 i 开/关缩进可视化
-:nmap <silent> <Leader>i <Plug>IndentGuidesToggle
+" NERDTree <c-n>
+map <C-n> :NERDTreeToggle<CR>
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif  "close vim if the only window left open is a NERDTree
+" YouCompleteMe <C-n><C-p><Up><Down>
+let g:ycm_key_list_select_completion=['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion=['<C-p>', '<Up>']
+nnoremap <leader>jd :YcmCompleter GoToDeclaration<CR>                           " Jump to Declaration
+nnoremap <leader>je :YcmCompleter GoToDefinition<CR>                            " Jump to Definition
+"nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>            " Jump between Declaration and Definition
+let g:ycm_global_ycm_extra_conf='/home/land/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+let g:ycm_confirm_extra_conf=0
+let g:ycm_collect_identifiers_from_tag_files = 1
+" UltiSnips <tab>
+let g:UltiSnipsExpandTrigger="<Tab>"
+let g:UltiSnipsJumpForwardTrigger="<Tab>"                                           
+let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
+let g:UltiSnipsEditSplit="vertical"                                             " If you want :UltiSnipsEdit to split your window.
+" nerdcommenter
