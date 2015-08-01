@@ -203,11 +203,12 @@ Plugin 'scrooloose/nerdtree'
 
 " Completion
 Plugin 'Raimondi/delimitMate'
+Bundle 'ervandew/supertab'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 
-" Commands
+" Comments
 Plugin 'scrooloose/nerdcommenter'
 
 " All of your Plugins must be added before the following line
@@ -265,6 +266,8 @@ nnoremap <leader>je :YcmCompleter GoToDefinition<CR>                            
 let g:ycm_global_ycm_extra_conf='/home/land/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 let g:ycm_confirm_extra_conf=0
 let g:ycm_collect_identifiers_from_tag_files = 1
+" Supertab <tab>                                                                " Supertab made UltiSnips work with YoucompleteMe, check http://guoqiao.me/post/2014/1030-vim-autocomplete-for-django
+let g:SuperTabDefaultCompletionType = '<C-n>'
 " UltiSnips <tab>
 let g:UltiSnipsExpandTrigger="<Tab>"
 let g:UltiSnipsJumpForwardTrigger="<Tab>"                                           
