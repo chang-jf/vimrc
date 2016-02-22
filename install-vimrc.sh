@@ -1,5 +1,4 @@
 #!/bin/sh
-cd ~/.vim
 ln -sf ~/.vim/vimrc ~/.vimrc
 
 #My vim plugins are managed by Vundle, but have to install Vundle prior to other plugins

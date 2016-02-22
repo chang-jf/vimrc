@@ -16,9 +16,8 @@ die() {
 [ -e "~/.vimrc" ] && die "~/.vimrc already exists."
 
 git clone git://github.com/chang-jf/vimrc.git "$VIMHOME"
-cd "$VIMHOME"
 
-./install-vimrc.sh
+. $VIMHOME/install-vimrc.sh
 
 echo "vimrc is installed."
 
