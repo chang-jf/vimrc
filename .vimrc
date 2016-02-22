@@ -19,7 +19,6 @@
 "---------------------------------------------------------------------------
 " Look&Feel
 set hls                                                                         " high light search matching
-set t_vb=
 set t_Co=256                                                                    " set vim support <t_co> colors
 set ruler                                                                       " show cursor position on bottom-right
 set nowrap
@@ -33,8 +32,14 @@ set cursorcolumn                                                                
 highlight CursorLine cterm=bold ctermbg=4
 au InsertEnter * set nocursorline                                               " insert 的時後, 將 CursorLine 移除,寫完了再打開
 au InsertLeave * set cursorline
-set noerrorbells                                                                " disable sound on errors
-set novisualbell                                                                " disable visualbell
+" [Disable vim beeping/flashing] (http://vim.wikia.com/wiki/Disable_beeping)----------------------------------------------------------------------------------    
+set noerrorbells                                                                " disable beep or screen flash while error msg displayed (if no err msg displayed it still beeped)
+set visualbell                                                                  " flash screen instead of sound beep no matter whether err msg displayed
+set t_vb=                                                                       " controls how Vim flashes the screen, set to empty cause vim not flash screen
+if has('autocmd')
+    autocmd GUIEnter * set visualbell t_vb=                                     " beep disabling for vim GUI version
+endif
+" ------------------------------------------------------------------------------------------------------------------------------------------------------------
 set background=dark                                                             " set background to dark, place this before "syn on"
 syntax on
 "colorscheme default                                                            " http://vimcolorschemetest.googlecode.com/svn/html/index-c.html
@@ -112,6 +117,13 @@ fun! Replace()
     :unlet! s:word
 endfun
 
+" load pre-made skeleton from $HOME/.vim/templates/ for new file base on file extension http://vim.wikia.com/wiki/Use_eval_to_create_dynamic_templates
+" eg. automatically load skeleton.c for new .c file and skeleton.md for new .md file
+augroup templates
+  au!
+  " read in template files
+  autocmd BufNewFile *.* silent! execute '0r $HOME/.vim/templates/skeleton.'.expand("<afile>:e")
+augroup END
 "---------------------------------------------------------------------------
 " USEFUL SHORTCUTS
 "---------------------------------------------------------------------------
@@ -268,7 +280,7 @@ let g:ycm_confirm_extra_conf=0
 let g:ycm_collect_identifiers_from_tag_files = 1
 " Supertab <tab>                                                                " Supertab made UltiSnips work with YoucompleteMe, check http://guoqiao.me/post/2014/1030-vim-autocomplete-for-django
 let g:SuperTabDefaultCompletionType = '<C-n>'
-" UltiSnips <tab>
+"" UltiSnips <tab>
 let g:UltiSnipsExpandTrigger="<Tab>"
 let g:UltiSnipsJumpForwardTrigger="<Tab>"                                           
 let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
