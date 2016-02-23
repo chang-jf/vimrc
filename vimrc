@@ -179,7 +179,6 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 " Look&Feel
-Plugin 'Lokaltog/vim-powerline'
 Plugin 'nathanaelkane/vim-indent-guides'
 
 " Integrations
@@ -222,10 +221,6 @@ endif
 
 
 "================================================= Plugin Setting ===============
-" PowerLine
-let g:Powerline_symbols = 'fancy'
-let g:Powerline_colorscheme='solarized256'
-
 " vim-indent-guides <leader>i
 :nmap <silent> <Leader>i <Plug>IndentGuidesToggle                               " <leader>i enable/disable indent_guide
 let g:indent_guides_auto_colors = 0
