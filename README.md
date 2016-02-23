@@ -33,13 +33,39 @@ vim +PluginInstall +qall
 cd ~/.vim/bundle/YouCompleteMe && ./install.py --clang-completer
 ```
 
+HowTo use
+---
+Redefined leader key to `,`, you are free to change.  
+" open the error console  
+`<leader-c\>` - Open a window to show the current list of errors.  
+`<leader-]>` - move to next error  
+`<leader-[>` - move to the prev error  
+
+move around splits  
+`<C-j>` - move to and maximize the below split.  
+`<C-k>` - move to and maximize the above split
+`<C-h>` - move to and maximize the left split
+`<C-l>` - move to and maximize the right split
+
+move around tabs. conflict with the original screen top/bottom
+comment them out if you want the original H/L
+`<C-t><C-t>` - new tab
+`<C-t><C-w>` - close tab
+`<S-H>` - go to prev tab
+`<S-L>` - go to next tab
+
+toggles paste mode, get correct layout while copy text from other program
+`<leader>p` - toggles paste mode
+
+insert header guard for C
+`<leader>g - generates the header guard for C
+
 Plugins
 ---
 [Plugin manager]  
-- [gmarik/Vundle.vim](https://github.com/VundleVim/Vundle.vim) : the plug-in manager for Vim  
+- [VundleVim/Vundle.vim](https://github.com/VundleVim/Vundle.vim) : the plug-in manager for Vim  
 
 [Look&Feel]  
-- [twerth/ir_black](https://github.com/twerth/ir_black) : The original IR_Black color scheme for vim  
 - [Lokaltog/vim-powerline](https://github.com/Lokaltog/vim-powerline) : The ultimate vim statusline utility. DEPRECATED in favor of [Lokaltog/powerline](https://github.com/Lokaltog/powerline)  
 - [nathanaelkane/vim-indent-guides](https://github.com/nathanaelkane/vim-indent-guides) : A Vim plugin for visually displaying indent levels in code  
     `<leader>i` - enable/disable indent_guide
