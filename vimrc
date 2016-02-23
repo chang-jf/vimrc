@@ -1,22 +1,6 @@
-" Chang, Jung-Feng's vimrc
-" Fork me on github git://github.com/chang-jf/vimrc
-" Read https://github.com/chang-jf/vimrc/blob/master/README.md for detail
-"
-" 1.vim manual(usr_05.txt, usr_06.txt, usr_30.txt)
-" 2.vgod's vimrc
-" 3.tsung's vimrc
-" 4.vimrc from china
-"       http://wklken.me/posts/2013/06/11/linux-my-vim.html
-"       http://blog.sina.com.cn/s/blog_627bb2cf0101g1b9.html
-"       http://blog.sina.com.cn/s/blog_627bb2cf0101ftdx.html
-"       http://www.cnblogs.com/ma6174/archive/2011/12/10/2283393.html
-"       http://wklken.me/posts/2013/06/11/linux-my-vim.html
-"       https://gist.github.com/fanzeyi/754789
-"       http://blog.csdn.net/shulianghan/article/details/16821959
-"
-"---------------------------------------------------------------------------
+"--------------------------------------------------------------------------------
 " General Settings
-"---------------------------------------------------------------------------
+"--------------------------------------------------------------------------------
 " Look&Feel
 set hls                                                                         " high light search matching
 set t_Co=256                                                                    " enable support 256 colors
@@ -32,28 +16,30 @@ set cursorcolumn                                                                
 highlight CursorLine cterm=bold ctermbg=4
 au InsertEnter * set nocursorline                                               " temporary disable cursorline while enter insert mode, re-enable while leave insert mode.
 au InsertLeave * set cursorline
-" [Disable vim beeping/flashing] (http://vim.wikia.com/wiki/Disable_beeping)----------------------------------------------------------------------------------    
+" [Disable vim beeping/flashing] (http://vim.wikia.com/wiki/Disable_beeping)-----
 set noerrorbells                                                                " disable beep or screen flash while error msg displayed (if no err msg displayed it still beeped)
 set visualbell                                                                  " flash screen instead of sound beep no matter whether err msg displayed
 set t_vb=                                                                       " controls how Vim flashes the screen, set to empty cause vim not flash screen
 if has('autocmd')
     autocmd GUIEnter * set visualbell t_vb=                                     " beep disabling for vim GUI version
 endif
-" ------------------------------------------------------------------------------------------------------------------------------------------------------------
+" -------------------------------------------------------------------------------
 set background=dark                                                             " set background to dark, place this before "syn on"
 syntax on
 "colorscheme default                                                            " http://vimcolorschemetest.googlecode.com/svn/html/index-c.html
-colorscheme elflord                                                             " elflord or default color scheme both look good for me
+colorscheme elflord                                                             " [default | elflord | solarized | ir_black] color schemes which looks good for me
 autocmd FileType text setlocal textwidth=81                                     " while filetype determined as text, set vim change to new line while input exceed 81
 set textwidth=0
 
 " Behavior
+set title                                                                       " set terminal title to filename
 set nobackup                                                                    " do not backup editing file with ~
 set autoread                                                                    " reload when file is changed from outside
 set mouse=nv                                                                    " enable mouse support ad normal and visual mode only
 set incsearch                                                                   " highlight next matched string while typing search pattern
 set smartcase                                                                   " ignore case if search pattern is all lowercase, otherwise remain it case-sensitive, require :set ignorecase in order to work.
 set ignorecase                                                                  " ignore case when searching
+set nomodeline                                                                  " disable modeline for security reason 
 set history=50                                                                  " too many history is useless and consuming memory
 set iskeyword+=-                                                                " default iskeyword=all letters, 0~9, _, visible latin characters, now add -, so VIM consider string which consisted by these item as a "word"
 set nocompatible                                                                " not compatible with the old-fashion vi mode
@@ -122,9 +108,9 @@ augroup templates
   autocmd BufNewFile *.* silent! execute '0r $HOME/.vim/templates/skeleton.'.expand("<afile>:e")
 augroup END
 
-"---------------------------------------------------------------------------
+"--------------------------------------------------------------------------------
 " USEFUL SHORTCUTS
-"---------------------------------------------------------------------------
+"--------------------------------------------------------------------------------
 let mapleader=","                                                               " change leader key to ','"
 let g:mapleader=","
 
@@ -151,9 +137,9 @@ map <S-L> gt                                                                    
 " toggles paste mode, get correct layout while copy text from other program
 nmap <leader>p :set paste!<BAR>set paste?<CR>                                   " ,p toggles paste mode
 
-"---------------------------------------------------------------------------
+"--------------------------------------------------------------------------------
 " PROGRAMMING SHORTCUTS
-"---------------------------------------------------------------------------
+"--------------------------------------------------------------------------------
 " ,g generates the header guard for C
 map <leader>g :call IncludeGuard()<CR>
 fun! IncludeGuard()
@@ -164,12 +150,12 @@ fun! IncludeGuard()
    call append( line("$"), "#endif // for #ifndef " . guard)
 endfun
 
-" ========================================Plugins managed by vundle===================================================================================================================================
+"=========================================Plugins managed by vundle==============
 "
-"------------------------------------------------------------------------------
+"--------------------------------------------------------------------------------
 " Install vundle automatically
 " http://www.erikzaadi.com/2012/03/19/auto-installing-vundle-from-your-vimrc/
-"------------------------------------------------------------------------------
+"--------------------------------------------------------------------------------
 let iCanHazVundle=1
 let vundle_readme=expand('~/.vim/bundle/Vundle.vim/README.md')
 if !filereadable(vundle_readme)
@@ -180,9 +166,9 @@ if !filereadable(vundle_readme)
   let iCanHazVundle=0
 endif 
 
-"------------------------------------------------------------------------------
+"--------------------------------------------------------------------------------
 " Vundle setting.
-"------------------------------------------------------------------------------
+"--------------------------------------------------------------------------------
 set nocompatible                                                                " be iMproved
 filetype off                                                                    " required!
 
@@ -190,10 +176,11 @@ set rtp+=~/.vim/bundle/Vundle.vim                                               
 call vundle#begin()
 
 " let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
+Plugin 'VundleVim/Vundle.vim'
 
 " Look&Feel
 Plugin 'twerth/ir_black'
+Plugin 'altercation/vim-colors-solarized'
 Plugin 'Lokaltog/vim-powerline'
 Plugin 'nathanaelkane/vim-indent-guides'
 
@@ -205,7 +192,7 @@ Plugin 'scrooloose/nerdtree'
 
 " Completion
 Plugin 'Raimondi/delimitMate'
-Bundle 'ervandew/supertab'
+Plugin 'ervandew/supertab'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
@@ -216,7 +203,7 @@ Plugin 'scrooloose/nerdcommenter'
 " All of your Plugins must be added before the following line
 call vundle#end()                                                               " required
 filetype plugin indent on                                                       " enable filetype detection affect filetype plugin and indent, will auto set cindent for filetype C
-" Brief help-------------------------------------------------------------------
+" Brief help---------------------------------------------------------------------
 " :PluginList          - list configured plugins
 " :PluginInstall(!)    - install (update) plugins
 " :PluginSearch(!) foo - search (or refresh cache first) for foo
@@ -225,9 +212,9 @@ filetype plugin indent on                                                       
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 
-"------------------------------------------------------------------------------
+"--------------------------------------------------------------------------------
 " Install plugins automatically
-"------------------------------------------------------------------------------
+"--------------------------------------------------------------------------------
 if iCanHazVundle == 3
     echo "Installing Bundles, please ignore key map error messages"
     echo ""
@@ -236,7 +223,7 @@ if iCanHazVundle == 3
 endif
 
 
-" ================================================ Plugin Setting ====================================================================================================================================
+"================================================= Plugin Setting ===============
 " PowerLine
 let g:Powerline_symbols = 'fancy'
 let g:Powerline_colorscheme='solarized256'
@@ -269,7 +256,7 @@ let g:ycm_key_list_previous_completion=['<C-p>', '<Up>']
 nnoremap <leader>jd :YcmCompleter GoToDeclaration<CR>                           " Jump to Declaration
 nnoremap <leader>je :YcmCompleter GoToDefinition<CR>                            " Jump to Definition
 "nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>            " Jump between Declaration and Definition
-let g:ycm_global_ycm_extra_conf='/home/land/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+let g:ycm_global_ycm_extra_conf='~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
 let g:ycm_confirm_extra_conf=0
 let g:ycm_collect_identifiers_from_tag_files = 1
 
