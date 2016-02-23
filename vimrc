@@ -179,8 +179,6 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 " Look&Feel
-Plugin 'twerth/ir_black'
-Plugin 'altercation/vim-colors-solarized'
 Plugin 'Lokaltog/vim-powerline'
 Plugin 'nathanaelkane/vim-indent-guides'
 
