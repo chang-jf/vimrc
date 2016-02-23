@@ -58,7 +58,7 @@ comment them out if you want the original H/L
 `<leader>p` - toggles paste mode  
 
 - insert header guard for C  
-`<leader>g - generates the header guard for C  
+`<leader>g` - generates the header guard for C  
 
 Plugins
 ---
