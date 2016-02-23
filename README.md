@@ -54,7 +54,7 @@ Plugins
 [Completion]  
 - [Raimondi/delimitMate](https://github.com/Raimondi/delimitMate) : provides insert mode auto-completion for quotes, parens, brackets, etc.  
 - [ervandew/supertab](https://github.com/ervandew/supertab) : a vim plugin which allows you to use <Tab> for all your insert completion needs (:help ins-completion).  
-    `<tab>` - made UltiSnips work with YoucompleteMe, check [here](http://guoqiao.me/post/2014/1030-vim-autocomplete-for-django  
+    `<tab>` - made UltiSnips work with YoucompleteMe, check [here](http://guoqiao.me/post/2014/1030-vim-autocomplete-for-django)  
 - [Valloric/YouCompleteMe](https://github.com/Valloric/YouCompleteMe) : A code-completion engine for Vim  
     `<C-n><Down>` - select next completion  
     `<C-p><Up>` - select previous completion  
