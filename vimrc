@@ -1,3 +1,4 @@
+
 "--------------------------------------------------------------------------------
 " General Settings
 "--------------------------------------------------------------------------------
@@ -43,10 +44,10 @@ set nomodeline                                                                  
 set history=50                                                                  " too many history is useless and consuming memory
 set iskeyword+=-                                                                " default iskeyword=all letters, 0~9, _, visible latin characters, now add -, so VIM consider string which consisted by these item as a "word"
 set nocompatible                                                                " not compatible with the old-fashion vi mode
-set encoding=utf8                                                               " vim internal character encoding used utf-8.
+set encoding=utf-8                                                              " vim internal character encoding used utf-8.
 set fileencoding=utf-8                                                          " Sets the character encoding for the file of this buffer.
 set termencoding=utf-8                                                          " Encoding used for the terminal. only affect encoding which display on your screen(terminal).
-set fileencodings=ucs-bom,utf-8,big5,euc-jp,gbk,latin1                          " guessing file encoding by order, first match picked, so strictly definitions first then loosely definitions, then unusual definitions.
+set fileencodings=ucs-bom,utf-8,big5,euc-jp,euc-kr,gb13080,latin1               " guessing file encoding by order, first match picked, so strictly definitions first then loosely definitions, then unusual definitions.
 set clipboard=unnamed                                                           " yank to the system register (*) by default
 autocmd! bufwritepost .vimrc source ~/.vimrc                                    " auto reload vimrc when editing it
 
@@ -83,10 +84,16 @@ au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|
 
 " status line
 set laststatus=2
-set statusline=\ %{HasPaste()}%<%-15.25(%f%)%m%r%h\ %w\ \
-set statusline+=\ \ \ [%{&ff}/%Y]
-set statusline+=\ \ \ %<%20.30(%{hostname()}:%{CurDir()}%)\
-set statusline+=%=%-10.(%l,%c%V%)\ %p%%/%L
+set statusline=%{HasPaste()}%<%-15.25(%f%)
+set statusline+=%m%r%h\ %w
+set statusline+=\ \ \ \ \ 
+set statusline+=[%{&ff}/%{(&fenc==\"\")?&enc:&fenc}%{(&bomb?\",BOM\":\"\")}/%Y]
+set statusline+=\ \ \ 
+set statusline+=%<%20.30(%{hostname()}:%{CurDir()}%)
+set statusline+=%=%-10.(%l,%c%V%)
+set statusline+=\ 
+set statusline+=%p%%/%L
+
 function! CurDir()
     let curdir = substitute(getcwd(), $HOME, "~", "")
     return curdir
@@ -190,7 +197,7 @@ Plugin 'scrooloose/nerdtree'
 " Completion
 Plugin 'Raimondi/delimitMate'
 Plugin 'ervandew/supertab'
-Plugin 'Valloric/YouCompleteMe'
+"Plugin 'Valloric/YouCompleteMe'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 
