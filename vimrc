@@ -117,7 +117,7 @@ augroup END
 
 "--------------------------------------------------------------------------------
 " USEFUL SHORTCUTS
-"--------------------------------------------------------------------------------
+" -------------------------------------------------------------------
 let mapleader=","                                                               " change leader key to ','"
 let g:mapleader=","
 
@@ -127,19 +127,28 @@ map <leader>] :cn<CR>                                                           
 map <leader>[ :cp<CR>                                                           " move to the prev error
 
 " move around splits
-map <C-J> <C-W>j<C-W>_                                                          " move to and maximize the below split
-map <C-K> <C-W>k<C-W>_                                                          " move to and maximize the above split
-nmap <c-h> <c-w>h<c-w><bar>                                                     " move to and maximize the left split
-nmap <c-l> <c-w>l<c-w><bar>                                                     " move to and maximize the right split
+"map <C-J> <C-W>j<C-W>_                                                          " move to and maximize the below split
+"map <C-K> <C-W>k<C-W>_                                                          " move to and maximize the above split
+"nmap <c-h> <c-w>h<c-w><bar>                                                     " move to and maximize the left split
+"nmap <c-l> <c-w>l<c-w><bar>                                                     " move to and maximize the right split
+nmap <c-w>x <c-w>c                                                              " close split
+nmap <c-w>X <c-w>o                                                              " close all split but self
+nmap <c-w>; <c-w>p                                                              " move to last split
+nmap <c-w>! <c-w>T                                                              " break split to other tab
 set wmw=0                                                                       " set the min width of a window to 0 so we can maximize others 
 set wmh=0                                                                       " set the min height of a window to 0 so we can maximize others
 
 " move around tabs. conflict with the original screen top/bottom
 " comment them out if you want the original H/L
-map <C-t><C-t> :tabnew<CR>                                                      " new tab
-map <C-t><C-w> :tabclose<CR>                                                    " close tab
-map <S-H> gT                                                                    " go to prev tab
-map <S-L> gt                                                                    " go to next tab
+map <c-t>c :tabnew<CR>                                                          " new tab
+map <C-t>k :tabclose<CR>                                                        " close tab
+map <c-t>K :tabonly<cr>                                                         " close all tab but self
+map <c-t>n :tabnext<cr>                                                         " go to next tab
+map <c-t>p :tabprevious<cr>                                                     " go to previous tab
+map <c-t><c-t> :tablast<cr>                                                     " go to last tab
+map <c-t>T :0tabmove<cr>                                                        " move tab to be first
+map <c-t>P :-tabmove<cr>                                                        " swap tab with previous one
+map <c-t>N :+tabmove<cr>                                                        " swap tab with next one
 
 " toggles paste mode, get correct layout while copy text from other program
 nmap <leader>p :set paste!<BAR>set paste?<CR>                                   " ,p toggles paste mode
@@ -155,6 +164,21 @@ fun! IncludeGuard()
    call append(0, "#ifndef " . guard)
    call append(1, "#define " . guard)
    call append( line("$"), "#endif // for #ifndef " . guard)
+endfun
+
+" ,b generate the yml header for Octopress markdown source
+map <leader>b :call Includeyml()<CR>
+fun! Includeyml()
+   let basename = substitute(expand("%:r"), '-', ' ', 'g')
+   let title = substitute(basename, '_', ' ', 'g')
+   let category = substitute(title, " ", ", ", "g")
+   call append(0, "---")
+   call append(1, "layout: post")
+   call append(2, "title: \"" . title . "\"")
+   call append(3, "date: " . strftime("%Y-%m-%d %T %z", getftime(bufname(""))))
+   call append(4, "comments: true")
+   call append(5, "categories: [" . category . "]")
+   call append(6, "---")
 endfun
 
 "=========================================Plugins managed by vundle==============
@@ -200,6 +224,7 @@ Plugin 'ervandew/supertab'
 "Plugin 'Valloric/YouCompleteMe'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
+Plugin 'godlygeek/tabular'
 
 " Comments
 Plugin 'scrooloose/nerdcommenter'
