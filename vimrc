@@ -48,7 +48,8 @@ set encoding=utf-8                                                              
 set fileencoding=utf-8                                                          " Sets the character encoding for the file of this buffer.
 set termencoding=utf-8                                                          " Encoding used for the terminal. only affect encoding which display on your screen(terminal).
 set fileencodings=ucs-bom,utf-8,big5,euc-jp,euc-kr,gb13080,latin1               " guessing file encoding by order, first match picked, so strictly definitions first then loosely definitions, then unusual definitions.
-set clipboard=unnamed                                                           " yank to the system register (*) by default
+set clipboard=unnamed                                                           " yank to the system register (*) by default,
+                                                                                " use "*yy or "+yy for yank into system clipboard, and "*p or "+p for paste content in clipboard
 autocmd! bufwritepost .vimrc source ~/.vimrc                                    " auto reload vimrc when editing it
 
 " Movement
